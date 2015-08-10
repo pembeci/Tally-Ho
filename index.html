@@ -20,22 +20,6 @@
         }
         .game-area table {
 		}
-        #outer-border{
-            position: absolute;
-            min-height: 507px;
-            min-width: 507px;
-            padding: 15px;
-            background-color: green;
-        }
-        #inner-border{
-            background-color: greenyellow;
-            max-width: 507px;
-            max-height: 507px;
-            overflow: auto;
-            position: absolute;
-        }
-        table{
-        }
         td{
             width: 68px;
             height: 68px;
@@ -51,7 +35,7 @@
     </style>
 </head>
 <body>
-<div class="game-area">
+
     <table id="board">
         <tbody></tbody>           
     </table>
@@ -59,13 +43,13 @@
     <div id='container'></div>
 	<script id="template" type="text/ractive">
 		<button type="button" on-click="tilePlacement"> Tile Placement </button>
-        <div class="board" style="background-image:url('public/img/board.jpg');">
+        <div class="game-area" style="background-image:url('public/img/board.jpg');">
             <table style="margin:20px">
                 {{#each board:i}}
                     <tr>
                     {{#each board[i]}}
-                        <td>
-                            <div on-click="tikla" class="tile"
+                        <td on-click="tikla">
+                            <div class="tile"
                                 style="background-image:url('{{this.imageUrl}}');">
                             </div>
                         </td>
