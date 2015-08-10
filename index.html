@@ -1,12 +1,7 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html lang="en">
     <head>
-    <title>Tally Ho</title>
+    <title>Tally Ho!</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="Tile.js"></script>
@@ -42,14 +37,15 @@ and open the template in the editor.
         table{
         }
         td{
-            background: url('public/img/back.png') no-repeat;
             width: 68px;
             height: 68px;
-            background-color: #eee;
         }
         .tile {
             width: 68px;
             height: 68px;
+            background-repeat: no-repeat;
+        }
+        .board {
             background-repeat: no-repeat;
         }
     </style>
@@ -63,19 +59,21 @@ and open the template in the editor.
     <div id='container'></div>
 	<script id="template" type="text/ractive">
 		<button type="button" on-click="tilePlacement"> Tile Placement </button>
-        <table>
-            {{#each board:i}}
-                <tr>
-                {{#each board[i]}}
-                    <td>
-                        <div on-click="tikla" class="tile"
-                            style="background-image:url('{{this.imageUrl}}');">
-                        </div>
-                    </td>
+        <div class="board" style="background-image:url('public/img/board.jpg');">
+            <table style="margin:20px">
+                {{#each board:i}}
+                    <tr>
+                    {{#each board[i]}}
+                        <td>
+                            <div on-click="tikla" class="tile"
+                                style="background-image:url('{{this.imageUrl}}');">
+                            </div>
+                        </td>
+                    {{/each}}
+                    </tr>
                 {{/each}}
-                </tr>
-            {{/each}}
-        </table>
+            </table>
+        </div>
         <div on-click="tikla" style="width:50px; height:50px;">asdasdasd</div> 
 	</script>
 	<script>

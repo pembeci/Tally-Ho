@@ -19,6 +19,8 @@ var ractive = new Ractive({
 ractive.on("tikla", function(e){
     console.log(e)
 })
+
+
 ractive.on("tilePlacement", function(){
     for(var i = 0; i < this.get("board").length; i++){
         for(var j = 0; j < this.get("board").length; j++){
@@ -27,7 +29,8 @@ ractive.on("tilePlacement", function(){
         }
     }
     console.log("Placement is done.")
-})
+});
+
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex ;
   while (0 !== currentIndex) {
@@ -39,7 +42,8 @@ function shuffle(array) {
   }
 
   return array;
-}
+};
+
 /*function Game(){
     this.board = [
         [ [], [], [], [], [], [], [] ],
