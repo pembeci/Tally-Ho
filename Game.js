@@ -15,7 +15,7 @@ var ractive = new Ractive({
         board : board,
         tiles : shuffle(t.tiles)
     }
-})
+});
 
 ractive.on("tilePlacement", function(){
     for(var i = 0; i < this.get("board").length; i++){
@@ -25,7 +25,8 @@ ractive.on("tilePlacement", function(){
         }
     }
     console.log("Placement is done.")
-})
+});
+
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex ;
   while (0 !== currentIndex) {
@@ -37,7 +38,8 @@ function shuffle(array) {
   }
 
   return array;
-}
+};
+
 /*function Game(){
     this.board = [
         [ [], [], [], [], [], [], [] ],
