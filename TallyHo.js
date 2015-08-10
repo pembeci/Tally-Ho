@@ -2,7 +2,8 @@ function TallyHo(){
     this.blue;
     this.brown;
     this.tiles = [];
-}
+};
+
 TallyHo.prototype.blueNumbers = [2, 6];
 TallyHo.prototype.brownNumbers = [2, 8];
 TallyHo.prototype.greenNumbers = [8, 7, 8, 7];
