@@ -27,6 +27,7 @@
         .tile {
             width: 68px;
             height: 68px;
+            background-image: url('public/img/back.jpg');
             background-repeat: no-repeat;
         }
         .board {
@@ -48,10 +49,18 @@
                 {{#each board:i}}
                     <tr>
                     {{#each board[i]}}
-                        <td on-click="tikla">
-                            <div class="tile"
-                                style="background-image:url('{{this.imageUrl}}');">
-                            </div>
+                        <td>
+                            {{#if this}}
+                                <div class="tile" 
+                                on-click="{{#if this.visible == false}} showTile {{else}} move {{/if}}"
+                                style="
+                                    {{#if this.visible}} 
+                                        background-image:url('{{this.imageUrl}}') 
+                                    {{else}} 
+                                        background-image:url('public/img/back.jpg')
+                                    {{/if}}
+                                "></div>
+                            {{/if}}
                         </td>
                     {{/each}}
                     </tr>

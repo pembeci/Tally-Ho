@@ -16,11 +16,13 @@ var ractive = new Ractive({
         tiles : shuffle(t.tiles)
     }
 })
-ractive.on("tikla", function(e){
-    console.log(e)
+ractive.on("showTile", function(e){
+    ractive.set(e.keypath + ".visible", true);
 })
 
-
+ractive.on("move", function(){
+    alert()
+})
 ractive.on("tilePlacement", function(){
     for(var i = 0; i < this.get("board").length; i++){
         for(var j = 0; j < this.get("board").length; j++){
