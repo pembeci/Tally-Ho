@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="Tile.js"></script>
+	<script src="TallyHo.js"></script>
+	<script src="public/js/ractive.js"></script>
+	<script src="Player.js"></script>
+    <style>
+        .game-area{
+            top: 25px;
+            left: 25px;
+            min-height: 525px;
+            min-width: 525px;
+            position: absolute;
+            margin: auto;
+            text-align: center;
+        }
+        .game-area table {
+		}
+        #outer-border{
+            position: absolute;
+            min-height: 507px;
+            min-width: 507px;
+            padding: 15px;
+            background-color: green;
+        }
+        #inner-border{
+            background-color: greenyellow;
+            max-width: 507px;
+            max-height: 507px;
+            overflow: auto;
+            position: absolute;
+        }
+        table{
+        }
+        td{
+            background: url('public/img/back.png') no-repeat;
+            width: 68px;
+            height: 68px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+<div class="game-area">
+    <table id="board">
+        <tbody></tbody>           
+    </table>
+</div>
+    <div id='container'></div>
+	<script id="template" type="text/ractive">
+		<button type="button" on-click="tilePlacement"> Tıkla </button>
+	</script>
+	<script>
+      var a = new Player("ersan");
+      var b = new Player("meltem");
+      
+      var t = new TallyHo();
+      t.setBlue(a);
+      t.setBrown(b);
+      t.createBlues();
+      t.createGreens();
+      t.createBrowns();
+      //var g = new Game();
+      //g.tilePlacement(t.tiles)
+	</script>
+  <script src="Game.js"></script>  
+</body>
+</html>
