@@ -30,9 +30,11 @@ var ractive = new Ractive({
         moveCoor : []
     }
 });
+
 ractive.on("showTile", function(e){
     ractive.set(e.keypath + ".visible", true);
-})
+});
+
 ractive.on("move", function(e){
     /*if (this.get('selectedTile')){
         console.log(e)
@@ -40,17 +42,31 @@ ractive.on("move", function(e){
         ractive.set("selectedTile", null);
         ractive.set(this.get("selectedTileCoor"), []);        
     }*/
-})
-ractive.on("hit", function(e){
+});
+ractive.on("hit", function(e, i, j){
+    console.log(i, j)
     if (this.get("selectedTile").prey.indexOf(this.get(e.keypath).name)>= 0)
-        alert()
-})
+        alert();
+});
+function possibleMoves(x, y, limit){
+    for (var i = 0; i < 7; i++){
+        for (var j = 0; j < 7; j++){
+            if((x-i <= limit && y-j=0) || (x-i=0 && y-j<=limit) ){
+                
+            }
+        }    
+    }
+}
 ractive.on("selectTile", function(e, i, j){
     console.log(i, j)
+    console.log(event)
+    theElemenet = event.path[0];
     this.set("selectedTile", this.get(e.keypath));
     this.set("selectedTileCoor", e.keypath);
-    console.log("selected tile", this.get("selectedTile"))
-})
+    console.log(this.get("selectedTile"));
+    theElemenet.className += " selected";
+});
+
 ractive.on("tilePlacement", function(){
     for(var i = 0; i < this.get("board").length; i++){
         for(var j = 0; j < this.get("board").length; j++){
@@ -101,3 +117,22 @@ Game.prototype.tilePlacement = function(tiles){
         }
     }
 }*/
+        
+0,0
+
+10 20 30 40 50 60
+01 02 03 04 05 06
+
+2,4
+
+
+
+
+
+
+        
+        
+        
+        
+        
+        
