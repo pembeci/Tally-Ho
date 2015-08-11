@@ -35,7 +35,8 @@ ractive.on("showTile", function(e){
     ractive.set(e.keypath + ".visible", true);
 });
 
-ractive.on("move", function(e){
+ractive.on("move", function(e, i, j){
+    console.log(i, j);
     /*if (this.get('selectedTile')){
         console.log(e)
         ractive.set(e.keypath, this.get('selectedTile'));
@@ -48,15 +49,7 @@ ractive.on("hit", function(e, i, j){
     if (this.get("selectedTile").prey.indexOf(this.get(e.keypath).name)>= 0)
         alert();
 });
-function possibleMoves(x, y, limit){
-    for (var i = 0; i < 7; i++){
-        for (var j = 0; j < 7; j++){
-            if((x-i <= limit && y-j=0) || (x-i=0 && y-j<=limit) ){
-                
-            }
-        }    
-    }
-}
+
 ractive.on("selectTile", function(e, i, j){
     console.log(i, j)
     console.log(event)
@@ -65,7 +58,46 @@ ractive.on("selectTile", function(e, i, j){
     this.set("selectedTileCoor", e.keypath);
     console.log(this.get("selectedTile"));
     theElemenet.className += " selected";
+    ractive.set('moveCoor', possibleMoves(i, j, this.get("selectedTile")));
 });
+
+function possibleMoves(x, y, selectedTile){
+    var posMoves = []
+    limit = selectedTile.moveLimit;
+    if(limit == 7){
+        console.log('limit must be 7 =>', limit);
+        for (var i = 0; i < limit; i++){
+            for (var j = 0; j < limit; j++){
+                if( ((0 <= Math.abs(x - i) && Math.abs(x - i) <= 6) && (y - j == 0)) || ((x - i == 0) && (0 <= Math.abs(y - j) && Math.abs(y - j) <= 6)) ){
+                    if(x != i || y != j){
+                        posMoves.push({ x : i, y : j });
+                    }
+                }
+            }
+        }
+    }
+    else if(limit == 1){
+        console.log('limit must be 1 =>', limit);
+        for (var i = -limit; i <= limit; i++){
+            for (var j = -limit; j <= limit; j++){
+                if(Math.abs(i) != Math.abs(j)){
+                    posMoves.push( { x : x - i, y : y - j } );
+                }
+            }
+        }
+    }
+    posMoves = posMoves.filter(function(obj){
+        theCell = ractive.get('board.' + obj.x + '.' + obj.y);
+        return ( theCell == false );/*some posiblities are not covered eatable objs will be added etc.*/
+    });
+    /*
+    // print posible moves list
+    posMoves.forEach(function(obj){
+        console.log(obj.x + "," + obj.y);
+    });
+    console.log(posMoves.length);*/
+    return posMoves;
+}
 
 ractive.on("tilePlacement", function(){
     for(var i = 0; i < this.get("board").length; i++){
@@ -78,16 +110,15 @@ ractive.on("tilePlacement", function(){
 });
 
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex ;
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
+    var currentIndex = array.length, temporaryValue, randomIndex ;
+    while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+    return array;
 };
 
 /*function Game(){
@@ -117,22 +148,3 @@ Game.prototype.tilePlacement = function(tiles){
         }
     }
 }*/
-        
-0,0
-
-10 20 30 40 50 60
-01 02 03 04 05 06
-
-2,4
-
-
-
-
-
-
-        
-        
-        
-        
-        
-        
