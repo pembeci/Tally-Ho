@@ -4,21 +4,19 @@
     <title>Tally Ho!</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="Tile.js"></script>
-	<script src="TallyHo.js"></script>
-	<script src="public/js/ractive.js"></script>
-	<script src="Player.js"></script>
+
     <style>
         .game-area{
-            top: 25px;
-            left: 25px;
-            min-height: 525px;
-            min-width: 525px;
+            height: 540px;
+            width: 540px;
             position: absolute;
             margin: auto;
             text-align: center;
+            background:url('public/img/board.jpg') no-repeat; 
         }
-        .game-area table {
+        .game-area > table {
+            margin-left:17px;
+            margin-top: 19px;
 		}
         td{
             width: 68px;
@@ -37,19 +35,21 @@
             width: 68px;
             height: 68px;
         }
+        button{
+            display: block;
+            position: absolute;
+            margin: 10px;
+            top: 540px;
+            left: -3px;
+        }
     </style>
 </head>
 <body>
-
-    <table id="board">
-        <tbody></tbody>           
-    </table>
-</div>
     <div id='container'></div>
+    
 	<script id="template" type="text/ractive">
-		<button type="button" on-click="tilePlacement"> Tile Placement </button>
-        <div class="game-area" style="background-image:url('public/img/board.jpg');">
-            <table style="margin:20px">
+        <div class="game-area" style=";">
+            <table>
                 {{#each board:i}}
                     <tr>
                     {{#each board[i]}}
@@ -73,7 +73,13 @@
                 {{/each}}
             </table>
         </div>
+        <button type="button" on-click="tilePlacement"> Tile Placement </button>
 	</script>
+    
+    <script src="Tile.js"></script>
+	<script src="TallyHo.js"></script>
+	<script src="public/js/ractive.js"></script>
+	<script src="Player.js"></script>
   <script src="Game.js"></script>  
 </body>
 </html>
