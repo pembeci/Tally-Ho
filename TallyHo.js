@@ -18,7 +18,7 @@ TallyHo.prototype.setBlue = function(player){
 
 TallyHo.prototype.createBlues = function(){
     for (var i = 0; i < this.blueNumbers[0]; i++){
-        var bear = new Tile("Bear", this.blue, 10, 1, ["Hunter", "Lumberjack"], "public/img/bear.jpg");
+        var bear = new Tile("Bear", this.blue, 10, 1, ["Hunter", "Lumberjack", "Pheasant", "Duck"], "public/img/bear.jpg");
         this.tiles.push(bear);
     }
     for (var i = 0; i < this.blueNumbers[1]; i++){

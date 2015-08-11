@@ -52,11 +52,22 @@
             <table style="margin:20px">
                 {{#each board:i}}
                     <tr>
-                    {{#each board[i]}}
+                    {{#each board[i]:j}}
                         <td>
                             {{#if this}}
                                 <div class="tile {{#if this.selectedTile == null}} selected {{else}} non-selected{{/if}}" 
-                                on-click="{{#if this.visible == false}} showTile {{else}} selectTile {{/if}}"
+                                on-click="
+                                    {{#if this.visible == false}}
+                                        {{#if selectedTile == null}}
+                                            showTile 
+                                        {{/if}}
+                                    {{else}} 
+                                        {{#if selectedTile == null}}
+                                            selectTile
+                                        {{else}}
+                                            hit
+                                        {{/if}}
+                                    {{/if}}"
                                 style="
                                     {{#if this.visible}} 
                                         background-image:url('{{this.imageUrl}}') 

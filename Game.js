@@ -24,22 +24,30 @@ var ractive = new Ractive({
         board : board,
         tiles : shuffle(t.tiles),
         selectedTile : null,
-        selectedTileCoor : null
+        selectedTileCoor : null,
+        blue : t.blue,
+        brown : t.brown
     }
-})
+});
 ractive.on("showTile", function(e){
     ractive.set(e.keypath + ".visible", true);
 })
 ractive.on("move", function(e){
     if (this.get('selectedTile')){
         ractive.set(e.keypath, this.get('selectedTile'));
-        ractive.set(this.get("selectedTileCoor"), null);
+        ractive.set("selectedTile", null);
+        ractive.set(this.get("selectedTileCoor"), []);        
     }
 })
+ractive.on("hit", function(e){
+    if (this.get("selectedTile").prey.indexOf(this.get(e.keypath).name)>= 0)
+        alert()
+})
 ractive.on("selectTile", function(e){
+    console.log(e)
     this.set("selectedTile", this.get(e.keypath));
     this.set("selectedTileCoor", e.keypath);
-    console.log(this.get("selectedTile"))
+    console.log("selected tile", this.get("selectedTile"))
 })
 ractive.on("tilePlacement", function(){
     for(var i = 0; i < this.get("board").length; i++){
