@@ -4,7 +4,6 @@
     <title>Tally Ho!</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <style>
         .game-area{
             height: 540px;
@@ -51,14 +50,14 @@
     <div id='container'></div>
     
 	<script id="template" type="text/ractive">
-        <div class="game-area" style=";">
+        <div class="game-area">
             <table>
                 {{#each board:i}}
                     <tr>
-                    {{#each board[i]}}
+                    {{#each board[i]:j}}
                         <td>
                             {{#if this}}
-                                <div class="tile {{#if this.selectedTile == null}} selected {{else}} non-selected{{/if}}" 
+                                <div id="{{i + '.' + j}}" class="tile" 
                                 on-click="{{#if this.visible == false}} showTile {{else}} selectTile {{/if}}"
                                 style="
                                     {{#if this.visible}} 
