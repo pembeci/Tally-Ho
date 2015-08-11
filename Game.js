@@ -51,7 +51,7 @@ ractive.on("hit", function(e, i, j){
 function possibleMoves(x, y, limit){
     for (var i = 0; i < 7; i++){
         for (var j = 0; j < 7; j++){
-            if((x-i <= limit && y-j=0) || (x-i=0 && y-j<=limit) ){
+            if ((x - i <= limit && y - j = 0) || (x - i = 0 && y - j <= limit)){
                 
             }
         }    
@@ -117,18 +117,6 @@ Game.prototype.tilePlacement = function(tiles){
         }
     }
 }*/
-        
-0,0
-
-10 20 30 40 50 60
-01 02 03 04 05 06
-
-2,4
-
-
-
-
-
 
         
         
