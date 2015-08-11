@@ -57,7 +57,7 @@
                     {{#each board[i]:j}}
                         <td>
                             {{#if this}} 
-                            <div id="{{i + '.' + j}}" class="tile" 
+                            <div class="{{i + '.' + j}}" class="tile" 
                                 on-click="
                                     {{#if this.visible == false}}
                                         {{#if selectedTile == null}}
@@ -65,7 +65,7 @@
                                         {{/if}}
                                     {{else}} 
                                         {{#if selectedTile == null}}
-                                            selectTile
+                                            selectTile:{{i}}
                                         {{else}}
                                             hit
                                         {{/if}}
@@ -78,7 +78,7 @@
                                     {{/if}}
                                 "></div>
                             {{else}}
-                                <div on-click="move" class="emptyCell"></div>
+                                <div id="{{i + '.' + j}}" on-click="move" class="emptyCell"></div>
                             {{/if}}
                         </td>
                     {{/each}}

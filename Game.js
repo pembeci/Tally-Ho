@@ -26,25 +26,27 @@ var ractive = new Ractive({
         selectedTile : null,
         selectedTileCoor : null,
         blue : t.blue,
-        brown : t.brown
+        brown : t.brown,
+        moveCoor : []
     }
 });
 ractive.on("showTile", function(e){
     ractive.set(e.keypath + ".visible", true);
 })
 ractive.on("move", function(e){
-    if (this.get('selectedTile')){
+    /*if (this.get('selectedTile')){
+        console.log(e)
         ractive.set(e.keypath, this.get('selectedTile'));
         ractive.set("selectedTile", null);
         ractive.set(this.get("selectedTileCoor"), []);        
-    }
+    }*/
 })
 ractive.on("hit", function(e){
     if (this.get("selectedTile").prey.indexOf(this.get(e.keypath).name)>= 0)
         alert()
 })
-ractive.on("selectTile", function(e){
-    console.log(e)
+ractive.on("selectTile", function(e, i, j){
+    console.log(i, j)
     this.set("selectedTile", this.get(e.keypath));
     this.set("selectedTileCoor", e.keypath);
     console.log("selected tile", this.get("selectedTile"))
