@@ -42,19 +42,19 @@ TallyHo.prototype.createBrowns = function(){
 
 TallyHo.prototype.createGreens = function(){
     for (var i = 0; i < this.greenNumbers[0]; i++){
-        var pheasant = new Tile("Pheasant", "none", 3, 7, [], "public/img/pheasant.jpg");
+        var pheasant = new Tile("Pheasant", "all", 3, 7, [], "public/img/pheasant.jpg");
         this.tiles.push(pheasant);
     }
     for (var i = 0; i < this.greenNumbers[1]; i++){
-        var duck = new Tile("Duck", "none", 2, 7, [], "public/img/duck.jpg");
+        var duck = new Tile("Duck", "all", 2, 7, [], "public/img/duck.jpg");
         this.tiles.push(duck);
     }
     for (var i = 0; i < this.greenNumbers[2]; i++){
-        var oak = new Tile("Oak", "none", 2, 0, [], "public/img/oak.jpg");
+        var oak = new Tile("Oak", "all", 2, 0, [], "public/img/oak.jpg");
         this.tiles.push(oak);
     }
     for (var i = 0; i < this.greenNumbers[3]; i++){
-        var pine = new Tile("Pine", "none", 2, 0, [], "public/img/pine.jpg");
+        var pine = new Tile("Pine", "all", 2, 0, [], "public/img/pine.jpg");
         this.tiles.push(pine);
     }
 };
