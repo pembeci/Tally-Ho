@@ -45,9 +45,11 @@ ractive.on("hit", function(e){
 })
 ractive.on("selectTile", function(e){
     console.log(e)
+    theElemenet = event.path[0];
     this.set("selectedTile", this.get(e.keypath));
     this.set("selectedTileCoor", e.keypath);
-    console.log("selected tile", this.get("selectedTile"))
+    console.log("selected tile", this.get("selectedTile"));
+    theElemenet.className += " selected";
 })
 ractive.on("tilePlacement", function(){
     for(var i = 0; i < this.get("board").length; i++){
