@@ -101,7 +101,7 @@ function canMove(x, y){
 
 function possibleMoves(x, y){
     var posMoves = []
-    limit = ractive.get("selectedTile").moveLimit;
+    var limit = ractive.get("selectedTile").moveLimit;
     if(limit == 7){
         var forward = y + 1;
         var back = y - 1;
@@ -119,24 +119,24 @@ function possibleMoves(x, y){
                 }else forward = ractive.get("board").length
             }
         }
-        var up = x - 1 ;
-        var down = x + 1;
+        back = x - 1 ;
+        forward = x + 1;
         var verticalArray = [];
         for (var i = 0; i < ractive.get("board").length; i++){
             verticalArray.push(ractive.get("board." + i + "." + y))
         }
-        while(forward != verticalArray.length || up >= 0){
-            if (up != -1){
-                if (ractive.get("board." + up + "." + y) == null){
-                    posMoves.push({ x : x, y : up });
-                    up--;
-                }else up = -1; 
+        while(forward != verticalArray.length || back >= 0){
+            if (back != -1){
+                if (ractive.get("board." + back + "." + y) == null){
+                    posMoves.push({ x : back, y : y });
+                    back--;
+                }else back = -1; 
             }
             if (forward != verticalArray.length){
-                if (ractive.get("board." + down + "." + y) == null){
-                    posMoves.push({ x : x, y : down });
-                    down++;
-                }else down = ractive.get("board").length
+                if (ractive.get("board." + forward + "." + y) == null){
+                    posMoves.push({ x : forward, y : y });
+                    forward++;
+                }else forward = verticalArray.length
             }
         }
     }
