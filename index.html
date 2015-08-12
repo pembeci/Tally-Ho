@@ -80,7 +80,9 @@
                                     {{/if}}
                                 "></div>
                             {{else}}
-                                <div id="{{i + '.' + j}}" on-click="move:{{i}},{{j}}" class="emptyCell"></div>
+                                {{#if selectedTile != null}}
+                                    <div id="{{i + '.' + j}}" on-click="move:{{i}},{{j}}" class="emptyCell"></div>
+                                {{/if}}
                             {{/if}}
                         </td>
                     {{/each}}

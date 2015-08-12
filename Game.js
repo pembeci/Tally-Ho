@@ -48,9 +48,14 @@ ractive.on("move", function(e, i, j){
     changeTurn();
 });
 ractive.on("hit", function(e, i, j){
-    if (this.get("selectedTile").prey.indexOf(this.get(e.keypath).name)>= 0){
-        //this.push(this.get("players." + this.get("turn")) + ".hand", this.get(e.keypath));
-        //console.log(this.get(e.keypath))
+    if (this.get(e.keypath) == this.get("selectedTile")){
+        this.set("selectedTileCoor", null);
+        this.set("selectedTile", null);
+        theElemenet = event.path[0];
+        theElemenet.className = "tile non-selected";
+        return;
+    }
+    if (this.get("selectedTile").prey.indexOf(this.get(e.keypath).name) != -1){
         var hand = this.get("players." + this.get("turn") + ".hand");
         hand.push(this.get(e.keypath));
         this.set(e.keypath, ractive.get("selectedTile"))
@@ -64,14 +69,11 @@ ractive.on("selectTile", function(e, i, j){
     if (this.get("players." + this.get("turn")).name == this.get(e.keypath).owner.name ||
        this.get(e.keypath).owner == "all"){
         if (this.get(e.keypath).name != "Oak" && this.get(e.keypath).name != "Pine"){
-            console.log(i, j)
-            console.log(event)
-            theElemenet = event.path[0];
             this.set("selectedTile", this.get(e.keypath));
             this.set("selectedTileCoor", e.keypath);
-            console.log(this.get("selectedTile"));
+            theElemenet = event.path[0];
             theElemenet.className += " selected";
-            ractive.set('moveCoor', possibleMoves(i, j));    
+            this.set('moveCoor', possibleMoves(i, j));    
         }
     }
 });
@@ -92,7 +94,6 @@ function changeTurn(){
 
 function canMove(x, y){
     return (ractive.get("moveCoor").reduce(function(result, coor){
-        console.log(coor)
         if (coor.x == x && coor.y == y) result = true; 
         return result;
     }, false))
@@ -102,33 +103,55 @@ function possibleMoves(x, y){
     var posMoves = []
     limit = ractive.get("selectedTile").moveLimit;
     if(limit == 7){
-        console.log('limit must be 7 =>', limit);
-        for (var i = 0; i < limit; i++){
-            for (var j = 0; j < limit; j++){
-                if( ((0 <= Math.abs(x - i) && Math.abs(x - i) <= 6) && (y - j == 0)) || ((x - i == 0) && (0 <= Math.abs(y - j) && Math.abs(y - j) <= 6)) ){
-                    if(x != i || y != j){
-                        if (ractive.get('board.' + i + '.' + j) == null){
-                            posMoves.push({ x : i, y : j });
-                            console.log(i ,j)
-                        }
-                            
-                    }
-                }
+        var forward = y + 1;
+        var back = y - 1;
+        while(forward != ractive.get("board").length || back >= 0){
+            if (back != -1){
+                if (ractive.get("board." + x + "." + back) == null){
+                    posMoves.push({ x : x, y : back });                    
+                    back--;
+                }else back = -1; 
+            }
+            if (forward != ractive.get("board").length){
+                if (ractive.get("board." + x + "." + forward) == null){
+                    posMoves.push({ x : x, y : forward });
+                    forward++;
+                }else forward = ractive.get("board").length
+            }
+        }
+        var up = x - 1 ;
+        var down = x + 1;
+        var verticalArray = [];
+        for (var i = 0; i < ractive.get("board").length; i++){
+            verticalArray.push(ractive.get("board." + i + "." + y))
+        }
+        while(forward != verticalArray.length || up >= 0){
+            if (up != -1){
+                if (ractive.get("board." + up + "." + y) == null){
+                    posMoves.push({ x : x, y : up });
+                    up--;
+                }else up = -1; 
+            }
+            if (forward != verticalArray.length){
+                if (ractive.get("board." + down + "." + y) == null){
+                    posMoves.push({ x : x, y : down });
+                    down++;
+                }else down = ractive.get("board").length
             }
         }
     }
     else if(limit == 1){
-        for (var i = x - 1; i <= x + 1; i++){
-           for(var j = y - 1; j <= y + 1; j++){
+        for (var i = x - limit; i <= x + limit; i++){
+           for(var j = y - limit; j <= y + limit; j++){
                if (i == x || j == y){
                    if (ractive.get('board.' + i + '.' + j) == null){
                        posMoves.push({ x : i, y : j });
-                       console.log(i ,j)
+                       console.log(i ,j);
                    }
                }
            } 
         }
-    }
+    };
     return posMoves;
 }
 
@@ -143,32 +166,3 @@ function shuffle(array) {
     }
     return array;
 };
-
-/*function Game(){
-    this.board = [
-        [ [], [], [], [], [], [], [] ],
-        [ [], [], [], [], [], [], [] ],
-        [ [], [], [], [], [], [], [] ],
-        [ [], [], [], [], [], [], [] ],
-        [ [], [], [], [], [], [], [] ],
-        [ [], [], [], [], [], [], [] ],
-        [ [], [], [], [], [], [], [] ]
-    ];
-}
-Game.prototype.tilePlacement = function(tiles){
-    var currentIndex = tiles.length, temporaryValue, randomIndex ;
-    while (0 !== currentIndex) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = tiles[currentIndex];
-        tiles[currentIndex] = tiles[randomIndex];
-        tiles[randomIndex] = temporaryValue;
-    }
-    for(var i = 0; i < this.board.length; i++){
-        for(var j = 0; j < this.board.length; j++){
-            if (i == 3 && j == 3) continue;
-            this.board[i][j] = tiles.pop()
-        }
-    }
-<<<<<<< HEAD
-}*/
