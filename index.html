@@ -4,93 +4,53 @@
     <title>Tally Ho!</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .game-area{
-            height: 540px;
-            width: 540px;
-            position: absolute;
-            margin: auto;
-            text-align: center;
-            background:url('public/img/board.jpg') no-repeat; 
-        }
-        .game-area > table {
-            margin-left:17px;
-            margin-top: 19px;
-		}
-        td{
-            width: 68px;
-            height: 68px;
-        }
-        .tile {
-            width: 67px;
-            height: 67px;
-            background-image: url('public/img/back.jpg');
-            background-repeat: no-repeat;
-        }
-        .board {
-            background-repeat: no-repeat;
-        }
-        .emptyCell {
-            width: 68px;
-            height: 68px;
-        }
-        button{
-            display: block;
-            position: absolute;
-            margin: 10px;
-            top: 540px;
-            left: -3px;
-        }
-        .selected{
-            outline-style: solid;
-            outline-width: 3px;
-            outline-color: greenyellow;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="public/css/style.css">
 </head>
 <body>
     <div id='container'></div>
     
 	<script id="template" type="text/ractive">
-        <div class="game-area">
-            <table>
-                {{#each board:i}}
-                    <tr>
-                    {{#each board[i]:j}}
-                        <td>
-                            {{#if this}} 
-                            <div id="{{i + '.' + j}}" class="tile" 
-                                on-click='
-                                    {{#if this.visible == false}}
-                                        {{#if selectedTile == null}}
-                                            showTile 
-                                        {{/if}}
-                                    {{else}} 
-                                        {{#if selectedTile == null}}
-                                            selectTile
-                                        {{else}}
-                                            hit
-                                        {{/if}}
-                                    {{/if}}:{{i}},{{j}}'
-                                style="
-                                    {{#if this.visible}} 
-                                        background-image:url('{{this.imageUrl}}') 
-                                    {{else}} 
-                                        background-image:url('public/img/back.jpg')
+    <div class='player {{#if turn == 0}} onTurn {{/if}}' id='player1'></div>
+    <div class="game-area">
+        <table>
+            {{#each board:i}}
+                <tr>
+                {{#each board[i]:j}}
+                    <td>
+                        {{#if this}} 
+                        <div id="{{i + '.' + j}}" class="tile" 
+                            on-click='
+                                {{#if this.visible == false}}
+                                    {{#if selectedTile == null}}
+                                        showTile 
                                     {{/if}}
-                                "></div>
-                            {{else}}
-                                {{#if selectedTile != null}}
-                                    <div id="{{i + '.' + j}}" on-click="move:{{i}},{{j}}" class="emptyCell"></div>
+                                {{else}} 
+                                    {{#if selectedTile == null}}
+                                        selectTile
+                                    {{else}}
+                                        hit
+                                    {{/if}}
+                                {{/if}}:{{i}},{{j}}'
+                            style="
+                                {{#if this.visible}} 
+                                    background-image:url('{{this.imageUrl}}') 
+                                {{else}} 
+                                    background-image:url('public/img/back.jpg')
                                 {{/if}}
+                            "></div>
+                        {{else}}
+                            {{#if selectedTile != null}}
+                                <div id="{{i + '.' + j}}" on-click="move:{{i}},{{j}}" class="emptyCell"></div>
                             {{/if}}
-                        </td>
-                    {{/each}}
-                    </tr>
+                        {{/if}}
+                    </td>
                 {{/each}}
-            </table>
-        </div>
-        <button type="button" on-click="tilePlacement"> Tile Placement </button>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+    <div class='player {{#if turn == 1}} onTurn {{/if}}' id='player2'></div>
+    <button type="button" on-click="tilePlacement"> Tile Placement </button>
 	</script>
     
     <script src="Tile.js"></script>
