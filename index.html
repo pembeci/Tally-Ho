@@ -10,7 +10,7 @@
     <div id='container'></div>
     
 	<script id="template" type="text/ractive">
-    <div class='player {{#if turn == 0}} onTurn {{/if}}' id='player1'>
+    <div class='player {{#if turn == 0}} onTurn {{/if}}' id='blue'>
         <div class='content-container'>
             <table>
                 <h3 id='playerName'> {{players.0.name}} </h3>
@@ -65,7 +65,7 @@
             {{/each}}
         </table>
     </div>
-    <div class='player {{#if turn == 1}} onTurn {{/if}}' id='player2'>
+    <div class='player {{#if turn == 1}} onTurn {{/if}}' id='brown'>
         <div class='content-container'>
             <table id='player-table-2'>
                 <h3 id='playerName'> {{players.1.name}} </h3>
@@ -84,7 +84,6 @@
     </div>
     <button type="button" on-click="tilePlacement"> Tile Placement </button>
 	</script>
-    
     <script src="Tile.js"></script>
 	<script src="TallyHo.js"></script>
 	<script src="public/js/ractive.js"></script>

@@ -10,8 +10,8 @@ body{
     margin: auto;
     text-align: center;
     background:url('../img/board.jpg') no-repeat;
-    margin-left: -25px;
-    margin-right: -25px;
+    margin-left: -10px;
+    margin-right: -10px;
 }
 
 .game-area > table {
@@ -83,11 +83,11 @@ button{
     height: 68px;
 }
 
-#player1{    
+#blue{    
     background-color: #01579B;
 }
 
-#player2{
+#brown{
     background-color: #5D4037;
     left: -540px;
     z-index: -1;
