@@ -17,13 +17,17 @@
                 {{#each imgUrls[0]}}
                 <tr>
                     <th style="background-image: url('{{this}}')"></th>
-                    <td> x 0 </td>
                 </tr>
                 {{/each}}
                  <tr>
-                    <th> Total Point </th>
-                    <td> {{player.0.point}}</td>
+                    <th> Total </th>
+                    <td> {{blueHandPoint}} </td>
                 <tr>
+            </table>
+            <table>
+                {{#each blueHand}}
+                    <tr><td> {{this}} </td></tr>
+                {{/each}}
             </table>
          </div>
     </div>       
@@ -71,17 +75,22 @@
                 <h3 id='playerName'> {{players.1.name}} </h3>
                 {{#each imgUrls[1]}}
                 <tr>
-                    <td> x 0 </td>
                     <th style="background-image: url('{{this}}')"></th>
                 </tr>
                 {{/each}}
                  <tr>
-                    <td> {{player.1.totalPoint}}</td>
-                    <th> Total Point </th>
+                    <td> {{brownHandPoint}}</td>
+                    <th> Total </th>
                 <tr>
+            </table>
+            <table>
+                {{#each brownHand}}
+                    <tr><td> {{this}} </td></tr>
+                {{/each}}
             </table>
         </div>
     </div>
+    
     <button type="button" on-click="tilePlacement"> Tile Placement </button>
 	</script>
     <script src="Tile.js"></script>

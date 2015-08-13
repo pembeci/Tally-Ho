@@ -58,6 +58,48 @@ var ractive = new Ractive({
         huntCoor : [],
         players : [],
         turn : 0
+    },
+    computed : {
+        blueHand: function(){
+            if (this.get("players").length == 2){
+                return (this.get("players.0.hand").reduce(function(hand, tile){
+                    hand[tile.name]++;
+                    return hand;
+                }, { Hunter : 0,
+                     Bear : 0,
+                     Fox : 0,
+                     Duck : 0,
+                     Pheasant : 0,
+                     Lumberjack : 0
+                    }))
+            }
+        },
+        blueHandPoint : function(){
+          return (this.get("players.0.hand").reduce(function(total, tile){
+              return total + tile.points;
+          }, 0))  
+        },
+        brownHand : function(){
+            if (this.get("players").length == 2){
+                return (this.get("players.1.hand").reduce(function(hand, tile){
+                    hand[tile.name]++;
+                    return hand;
+                }, { Hunter : 0,
+                     Bear : 0,
+                     Fox : 0,
+                     Duck : 0,
+                     Pheasant : 0,
+                     Oak : 0,
+                     Pine : 0,
+                     Lumberjack : 0
+                    }))
+            }
+        },
+        brownHandPoint : function(){
+          return (this.get("players.1.hand").reduce(function(total, tile){
+              return total + tile.points;
+          }, 0))  
+        }
     }
 });
 
