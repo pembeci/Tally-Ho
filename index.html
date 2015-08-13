@@ -11,21 +11,28 @@
     
 	<script id="template" type="text/ractive">
     <div class='player {{#if turn == 0}} onTurn {{/if}}' id='player1'>
-        <table>
-            <tr>
-                {{#each imgUrls[0]}}
-                    <th style="background-image: url('{{this}}')"></th>
-                {{/each}}
-            </tr>
-            <tr>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-            </tr>
-        </table>
+        <div class='content-container'>
+            <table>
+                <h3 id='playerName'> {{players.0.name}} </h3>
+                <tr>
+                    {{#each imgUrls[0]}}
+                        <th style="background-image: url('{{this}}')"></th>
+                    {{/each}}
+                </tr>
+                <tr>
+                    <td> x {{player.0.hand ? player.0.hand : 0}} </td>
+                    <td> x {{player.0.hand ? player.0.hand : 0}} </td>
+                    <td> x {{player.0.hand ? player.0.hand : 0}} </td>
+                    <td> x {{player.0.hand ? player.0.hand : 0}} </td>
+                    <td> x {{player.0.hand ? player.0.hand : 0}} </td>
+                    <td> x {{player.0.hand ? player.0.hand : 0}} </td>
+                </tr>
+                <tr>
+                    <td colspan=3> Total Point </td>
+                    <td colspan=3> {{player.0.totalPoint}}</td>
+                <tr>
+            </table>
+        </div>
     </div>
     <div class="game-area">
         <table>
@@ -66,21 +73,28 @@
         </table>
     </div>
     <div class='player {{#if turn == 1}} onTurn {{/if}}' id='player2'>
-        <table>
-            <tr>
-                {{#each imgUrls[1]}}
-                    <th style="background-image: url('{{this}}')"></th>
-                {{/each}}
-            </tr>
-            <tr>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-            </tr>
-        </table>
+        <div class='content-container'>
+            <table>
+                <h3 id='playerName'> {{players.1.name}} </h3>
+                <tr>
+                    {{#each imgUrls[1]}}
+                        <th style="background-image: url('{{this}}')"></th>
+                    {{/each}}
+                </tr>
+                <tr>
+                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                </tr>
+                <tr>
+                    <td colspan=3> Total Point </td>
+                    <td colspan=3> {{player.1.totalPoint}}</td>
+                <tr>
+            </table>
+        </div>
     </div>
     <button type="button" on-click="tilePlacement"> Tile Placement </button>
 	</script>

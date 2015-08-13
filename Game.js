@@ -80,14 +80,13 @@ ractive.on("hit", function(e, i, j){
     if (this.get(e.keypath) == this.get("selectedTile")){
         this.set("selectedTileCoor", null);
         this.set("selectedTile", null);
-        theElemenet = event.path[0];
-        theElemenet.className = "tile non-selected";
+        event.target.className = "tile non-selected";
         return;
     }
     if (this.get("selectedTile").prey.indexOf(this.get(e.keypath).name) != -1){
         var hand = this.get("players." + this.get("turn") + ".hand");
         hand.push(this.get(e.keypath));
-        this.set(e.keypath, ractive.get("selectedTile"))
+        this.set(e.keypath, ractive.get("selectedTile"));
         this.set(this.get("selectedTileCoor"), null);
         this.set("selectedTile", null)
     }
@@ -100,8 +99,7 @@ ractive.on("selectTile", function(e, i, j){
         if (this.get(e.keypath).name != "Oak" && this.get(e.keypath).name != "Pine"){
             this.set("selectedTile", this.get(e.keypath));
             this.set("selectedTileCoor", e.keypath);
-            theElemenet = event.path[0];
-            theElemenet.className += " selected";
+            event.target.className += " selected";
             this.set('moveCoor', possibleMoves(i, j));    
         }
     }
