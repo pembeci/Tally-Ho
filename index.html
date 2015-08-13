@@ -13,20 +13,16 @@
     <div class='player {{#if turn == 0}} onTurn {{/if}}' id='player1'>
         <div class='content-container'>
             <table>
-            <h3 id='playerName'> {{players.0.name}} </h3>
+                <h3 id='playerName'> {{players.0.name}} </h3>
+                {{#each imgUrls[0]}}
                 <tr>
-                    {{#each imgUrls[0]}}
-                        <th style="background-image: url('{{this}}')"></th>
-                    {{/each}}
+                    <th style="background-image: url('{{this}}')"></th>
+                    <td> x 0 </td>
                 </tr>
-                <tr>
-                    {{#each players.0.hand}}
-                        {{this}}
-                    {{/each}}
-                </tr>
-                <tr>
-                    <td colspan=3> Total Point </td>
-                    <td colspan=3> {{player.0.totalPoint}}</td>
+                {{/each}}
+                 <tr>
+                    <th> Total Point </th>
+                    <td> {{player.0.point}}</td>
                 <tr>
             </table>
          </div>
@@ -71,24 +67,17 @@
     </div>
     <div class='player {{#if turn == 1}} onTurn {{/if}}' id='player2'>
         <div class='content-container'>
-            <table>
+            <table id='player-table-2'>
                 <h3 id='playerName'> {{players.1.name}} </h3>
+                {{#each imgUrls[1]}}
                 <tr>
-                    {{#each imgUrls[1]}}
-                        <th style="background-image: url('{{this}}')"></th>
-                    {{/each}}
+                    <td> x 0 </td>
+                    <th style="background-image: url('{{this}}')"></th>
                 </tr>
-                <tr>
-                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                    <td> x {{player.1.hand ? player.1.hand : 0}} </td>
-                </tr>
-                <tr>
-                    <td colspan=3> Total Point </td>
-                    <td colspan=3> {{player.1.totalPoint}}</td>
+                {{/each}}
+                 <tr>
+                    <td> {{player.1.totalPoint}}</td>
+                    <th> Total Point </th>
                 <tr>
             </table>
         </div>
