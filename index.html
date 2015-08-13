@@ -10,7 +10,23 @@
     <div id='container'></div>
     
 	<script id="template" type="text/ractive">
-    <div class='player {{#if turn == 0}} onTurn {{/if}}' id='player1'></div>
+    <div class='player {{#if turn == 0}} onTurn {{/if}}' id='player1'>
+        <table>
+            <tr>
+                {{#each imgUrls[0]}}
+                    <th style="background-image: url('{{this}}')"></th>
+                {{/each}}
+            </tr>
+            <tr>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+            </tr>
+        </table>
+    </div>
     <div class="game-area">
         <table>
             {{#each board:i}}
@@ -49,7 +65,23 @@
             {{/each}}
         </table>
     </div>
-    <div class='player {{#if turn == 1}} onTurn {{/if}}' id='player2'></div>
+    <div class='player {{#if turn == 1}} onTurn {{/if}}' id='player2'>
+        <table>
+            <tr>
+                {{#each imgUrls[1]}}
+                    <th style="background-image: url('{{this}}')"></th>
+                {{/each}}
+            </tr>
+            <tr>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+                <td> x {{player.1.hand ? player.1.hand : 0}} </td>
+            </tr>
+        </table>
+    </div>
     <button type="button" on-click="tilePlacement"> Tile Placement </button>
 	</script>
     

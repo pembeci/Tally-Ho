@@ -16,12 +16,40 @@ t.setBrown(b);
 t.createBlues();
 t.createGreens();
 t.createBrowns();
-      
+
+var imgUrls = t.tiles.reduce(function(accumulated, nextTile) {
+     if (nextTile.owner == t.blue){
+        if(accumulated[0].indexOf(nextTile.imageUrl) == -1){
+            accumulated[0].push(nextTile.imageUrl);
+            accumulated[1].push(nextTile.imageUrl);
+        }
+     }
+     else if(nextTile.owner == t.brown){
+        if(nextTile.name != 'Hunter' && accumulated[1].indexOf(nextTile.imageUrl) == -1){
+            accumulated[0].push(nextTile.imageUrl);
+            accumulated[1].push(nextTile.imageUrl);
+        }
+     }
+     else{
+        if((nextTile.name == 'Pheasant' || nextTile.name == 'Duck') && accumulated[0].indexOf(nextTile.imageUrl) == -1){
+            accumulated[0].push(nextTile.imageUrl);
+        }
+        if((nextTile.name == 'Oak' || nextTile.name == 'Pine') && accumulated[1].indexOf(nextTile.imageUrl) == -1){
+            accumulated[1].push(nextTile.imageUrl);
+        }
+     }  
+     return accumulated;
+  },
+  [ ["public/img/hunter_2.jpg"], ["public/img/hunter_2.jpg"] ]  // initial value for accumulated
+);
+console.log(imgUrls);
+
 var ractive = new Ractive({
     el : "#container",
     template : "#template",
     data : {
         board : board,
+        imgUrls : imgUrls,
         tiles : shuffle(t.tiles),
         selectedTile : null,
         selectedTileCoor : null,
@@ -32,6 +60,7 @@ var ractive = new Ractive({
         turn : 0
     }
 });
+
 ractive.push("players", t.blue);
 ractive.push("players", t.brown);
 ractive.on("showTile", function(e){
@@ -86,6 +115,7 @@ ractive.on("tilePlacement", function(){
         }
     }
     console.log("Placement is done.")
+    event.target.style.display = "none";
 });
 
 function changeTurn(){
