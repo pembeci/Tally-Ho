@@ -1,0 +1,102 @@
+body{
+    font-family: sans-serif;
+}
+
+.game-area{
+    height: 540px;
+    width: 540px;
+    display: inline-block;
+    left: -270px;
+    margin: auto;
+    text-align: center;
+    background:url('../img/board.jpg') no-repeat;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.game-area > table {
+    margin-left:17px;
+    margin-top: 19px;
+}
+
+td{
+    width: 68px;
+    height: 68px;
+}
+
+.tile {
+    width: 67px;
+    height: 67px;
+    background-image: url('../img/back.jpg');
+    background-repeat: no-repeat;
+}
+
+.board {
+    background-repeat: no-repeat;
+}
+
+.emptyCell {
+    width: 68px;
+    height: 68px;
+}
+
+button{
+    display: block;
+    position: absolute;
+    margin: 10px;
+    top: 540px;
+    left: -3px;
+}
+
+.selected{
+    outline-style: solid;
+    outline-width: 3px;
+    outline-color: greenyellow;
+}
+
+.player{
+    display: inline-block;
+    width: 540px;
+    height: 540px;
+    opacity: 0.3;
+}
+
+.player > .content-container{
+    margin: auto;
+    text-align: center;
+}
+
+.player table{
+    margin: auto;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.player td, .player th {
+    border: 2px ridge black;
+}
+
+.player table > tr > th{
+    width: 68px;
+    height: 68px;
+}
+
+#player1{    
+    background-color: #01579B;
+}
+
+#player2{
+    background-color: #5D4037;
+    left: -540px;
+    z-index: -1;
+}
+
+.onTurn{
+    opacity: 1;
+}
+
+#playerName{
+    margin: 15px auto;
+    float: left;
+    text-align: center;
+}

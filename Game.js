@@ -16,12 +16,39 @@ t.setBrown(b);
 t.createBlues();
 t.createGreens();
 t.createBrowns();
-      
+
+var imgUrls = t.tiles.reduce(function(accumulated, nextTile) {
+     if (nextTile.owner == t.blue){
+        if(accumulated[0].indexOf(nextTile.imageUrl) == -1){
+            accumulated[0].push(nextTile.imageUrl);
+            accumulated[1].push(nextTile.imageUrl);
+        }
+     }
+     else if(nextTile.owner == t.brown){
+        if(nextTile.name != 'Hunter' && accumulated[1].indexOf(nextTile.imageUrl) == -1){
+            accumulated[0].push(nextTile.imageUrl);
+            accumulated[1].push(nextTile.imageUrl);
+        }
+     }
+     else{
+        if((nextTile.name == 'Pheasant' || nextTile.name == 'Duck') && accumulated[0].indexOf(nextTile.imageUrl) == -1){
+            accumulated[0].push(nextTile.imageUrl);
+        }
+        if((nextTile.name == 'Oak' || nextTile.name == 'Pine') && accumulated[1].indexOf(nextTile.imageUrl) == -1){
+            accumulated[1].push(nextTile.imageUrl);
+        }
+     }  
+     return accumulated;
+  },
+  [ ["public/img/hunter_2.jpg"], ["public/img/hunter_2.jpg"] ]  // initial value for accumulated
+);
+
 var ractive = new Ractive({
     el : "#container",
     template : "#template",
     data : {
         board : board,
+        imgUrls : imgUrls,
         tiles : shuffle(t.tiles),
         selectedTile : null,
         selectedTileCoor : null,
@@ -33,6 +60,7 @@ var ractive = new Ractive({
         turn : 0
     }
 });
+
 ractive.push("players", t.blue);
 ractive.push("players", t.brown);
 ractive.on("showTile", function(e){
@@ -44,26 +72,27 @@ ractive.on("move", function(e, i, j){
     if (canMove(i, j)){
         this.set(e.keypath, this.get("selectedTile"));
         this.set(this.get("selectedTileCoor"), null);
-        this.set("selectedTile", null)
+        this.set("selectedTile", null);
+        changeTurn();
     }
-    changeTurn();
+    
 });
 ractive.on("hunt", function(e, i, j){
     if (this.get(e.keypath) == this.get("selectedTile")){
         this.set("selectedTileCoor", null);
         this.set("selectedTile", null);
-        theElemenet = event.path[0];
-        theElemenet.className = "tile non-selected";
+        event.target.className = "tile non-selected";
         return;
     }
     if (canHunt(i, j)){
-        var hand = this.get("players." + this.get("turn") + ".hand");
-        hand.push(this.get(e.keypath));
-        this.set(e.keypath, ractive.get("selectedTile"))
+        var hand = this.push("players." + this.get("turn") + ".hand", this.get(e.keypath));
+        //hand.push(this.get(e.keypath));
+        this.set(e.keypath, ractive.get("selectedTile"));
         this.set(this.get("selectedTileCoor"), null);
-        this.set("selectedTile", null)
+        this.set("selectedTile", null);
+        changeTurn();
     }
-    changeTurn();
+    
 });
 
 ractive.on("selectTile", function(e, i, j){
@@ -72,10 +101,9 @@ ractive.on("selectTile", function(e, i, j){
         if (this.get(e.keypath).name != "Oak" && this.get(e.keypath).name != "Pine"){
             this.set("selectedTile", this.get(e.keypath));
             this.set("selectedTileCoor", e.keypath);
-            theElemenet = event.path[0];
-            theElemenet.className += " selected";
             this.set('moveCoor', possibleMoves(i, j));
             this.set("huntCoor", possibleHunts(i, j));
+            event.target.className += " selected";
         }
     }
 });
@@ -88,6 +116,7 @@ ractive.on("tilePlacement", function(){
         }
     }
     console.log("Placement is done.")
+    event.target.style.display = "none";
 });
 
 function changeTurn(){
@@ -174,7 +203,7 @@ function possibleHunts(x, y){
                         }else{
                             if (ractive.get("board." + x + "." + i).visible){
                                 if (selectedTile.prey.indexOf(ractive.get("board." + x + "." + i + ".name")) != -1){
-                                    posHunts.push({ x : i, y : y });                    
+                                    posHunts.push({ x : x, y : i });                    
                                     i = -1;
                                 }else i = -1;
                             }else i = -1;
