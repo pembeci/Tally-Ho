@@ -10,22 +10,22 @@
 <div id='container'></div>
 
 <script id="template" type="text/ractive">
-<div class="player {{#if (gamePhaze!='gameStart' || turn == 0)}} onTurn {{/if}}" id='blue'>
+<div class="player {{#if (gamePhase!='gameStart' || turn == 0)}} onTurn {{/if}}" id='blue'>
     <div class='content-container'>
-        {{#if gamePhaze == 'pickName'}}
+        {{#if gamePhase == 'pickName'}}
             <tr>
                 <input type='text' value={{player1name}} required placeholder='Player Name'>
                 <button type="submit" on-click="p1ready"> Ready </button>
             </tr>
         {{/if}}
-        {{#if gamePhaze != 'pickName'}}
+        {{#if gamePhase != 'pickName'}}
             {{#if turn==0}}
                 <h2 class='playerActive'>{{players.0.name}}</h2>
             {{else}}
                 <h4>{{players.0.name}}</h4>
             {{/if}}
         {{/if}}
-        {{#if gamePhaze == 'gameStart'}}
+        {{#if gamePhase == 'gameStart'}}
         <table class="scoreBoard">
             <tr>
             {{#each imgUrls[0]}}
@@ -82,22 +82,22 @@
         {{/each}}
     </table>
 </div>
-<div class='player {{#if (gamePhaze!='gameStart' || turn == 1)}} onTurn {{/if}}' id='brown'>
+<div class='player {{#if (gamePhase!='gameStart' || turn == 1)}} onTurn {{/if}}' id='brown'>
     <div class='content-container'>
-        {{#if gamePhaze == 'pickName'}}
+        {{#if gamePhase == 'pickName'}}
             <tr>
                 <input value={{player2name}} type="text" required='required' placeholder='Player Name'>
                 <button on-click="p2ready"> Ready </button>
             </tr>
         {{/if}}
-        {{#if gamePhaze != 'pickName'}}
+        {{#if gamePhase != 'pickName'}}
             {{#if turn==1}}
                 <h2 class='playerActive'>{{players.1.name}}</h2>
             {{else}}
                 <h4>{{players.1.name}}</h4>
             {{/if}}
         {{/if}}
-        {{#if gamePhaze == 'gameStart'}}
+        {{#if gamePhase == 'gameStart'}}
         <table class="scoreBoard">
             <tr>
             {{#each imgUrls[1]}}
@@ -110,13 +110,13 @@
             {{/each}}
             </tr>
              <tr>
-                <td colspan="{{imgUrls[1].length}}"> {{blueHandPoint}} </td>
+                <td colspan="{{imgUrls[1].length}}"> {{brownHandPoint}} </td>
             </tr>
         </table>
         {{/if}}
      </div>
 </div>
-{{#if gamePhaze == 'gameInit'}}
+{{#if gamePhase == 'gameInit'}}
 <button id='placement' type="button" on-click="tilePlacement"> Tile Placement </button>
 {{/if}}
 </script>

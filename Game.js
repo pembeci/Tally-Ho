@@ -14,7 +14,7 @@ var ractive = new Ractive({
     el : "#container",
     template : "#template",
     data : {
-        gamePhaze: 'pickName', /*gameStart, gameInit*/
+        gamePhase: 'pickName', /*gameStart, gameInit*/
         board : board,
         imgUrls : [],
         tiles : null,
@@ -78,7 +78,7 @@ ractive.on("p1ready", function(){
     ractive.set("players.0", t.blue);
     event.target.style.display = 'none';
     if(ractive.get('players').length == 2){
-        ractive.set('gamePhaze', 'gameInit');
+        ractive.set('gamePhase', 'gameInit');
     }
 });
 
@@ -89,7 +89,7 @@ ractive.on("p2ready", function() {
     ractive.set("players.1", t.brown);
     event.target.style.display = 'none';
     if(ractive.get('players').length == 2){
-        ractive.set('gamePhaze', 'gameInit');
+        ractive.set('gamePhase', 'gameInit');
     }
 });
 
@@ -151,7 +151,7 @@ ractive.on("tilePlacement", function(){
             ractive.set("board[" + i + "][ " + j + " ]", ractive.get("tiles").pop())
         }
     }
-    ractive.set('gamePhaze', 'gameStart');
+    ractive.set('gamePhase', 'gameStart');
 });
 
 function changeTurn(){
