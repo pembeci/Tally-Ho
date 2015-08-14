@@ -33,6 +33,7 @@ var imgUrls = t.tiles.reduce(function(accumulated, nextTile) {
      else{
         if((nextTile.name == 'Pheasant' || nextTile.name == 'Duck') && accumulated[0].indexOf(nextTile.imageUrl) == -1){
             accumulated[0].push(nextTile.imageUrl);
+            accumulated[1].push(nextTile.imageUrl);
         }
         if((nextTile.name == 'Oak' || nextTile.name == 'Pine') && accumulated[1].indexOf(nextTile.imageUrl) == -1){
             accumulated[1].push(nextTile.imageUrl);
@@ -87,8 +88,8 @@ var ractive = new Ractive({
                 }, { Hunter : 0,
                      Bear : 0,
                      Fox : 0,
-                     Duck : 0,
                      Pheasant : 0,
+                     Duck : 0,
                      Oak : 0,
                      Pine : 0,
                      Lumberjack : 0

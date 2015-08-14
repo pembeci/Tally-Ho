@@ -66,23 +66,6 @@ button{
     text-align: center;
 }
 
-.player table{
-    float: left;
-    margin: 0 25px;
-    text-align: center;
-    border-collapse: collapse;
-}
-
-.player td, .player th {
-    outline: 1px solid black;
-    text-align: center;
-}
-
-.player th, .player td {
-    width: 68px;
-    height: 68px;
-}
-
 #blue{    
     background-color: #01579B;
 }
@@ -103,4 +86,16 @@ button{
     margin: 5px auto;
     float: left;
     text-align: center;
+}
+.scoreBoard {
+    border: 1px solid;
+}
+.scoreBoard td{
+    width: 40px;
+    height: 40px;
+    border: 1px solid;
+}
+.scoreBoard img{
+    width: 40px;
+    height: 40px
 }

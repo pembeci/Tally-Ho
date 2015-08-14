@@ -12,22 +12,20 @@
 	<script id="template" type="text/ractive">
     <div class='player {{#if turn == 0}} onTurn {{/if}}' id='blue'>
         <div class='content-container'>
-            <table>
-                <h3 id='playerName'> {{players.0.name}} </h3>
+            <table class="scoreBoard">
+                <tr>
                 {{#each imgUrls[0]}}
-                <tr>
-                    <th style="background-image: url('{{this}}')"></th>
+                    <th> <img src="{{this}}"> </th>
+                {{/each}}
                 </tr>
-                {{/each}}
-                 <tr>
-                    <th> Total </th>
-                    <td> {{blueHandPoint}} </td>
                 <tr>
-            </table>
-            <table>
-                {{#each blueHand}}
-                    <tr><td> {{this}} </td></tr>
+                 {{#each blueHand}}
+                    <td> {{this}} </td>
                 {{/each}}
+                </tr>
+                 <tr>
+                    <td colspan="{{imgUrls[0].length}}"> {{blueHandPoint}} </td>
+                </tr>
             </table>
          </div>
     </div>       
@@ -71,22 +69,20 @@
     </div>
     <div class='player {{#if turn == 1}} onTurn {{/if}}' id='brown'>
         <div class='content-container'>
-            <table id='player-table-2'>
-                <h3 id='playerName'> {{players.1.name}} </h3>
+            <table class="scoreBoard">
+                <tr>
                 {{#each imgUrls[1]}}
-                <tr>
-                    <th style="background-image: url('{{this}}')"></th>
+                    <th> <img src="{{this}}"> </th>
+                {{/each}}
                 </tr>
-                {{/each}}
-                 <tr>
-                    <td> {{brownHandPoint}}</td>
-                    <th> Total </th>
                 <tr>
-            </table>
-            <table>
-                {{#each brownHand}}
-                    <tr><td> {{this}} </td></tr>
+                 {{#each brownHand}}
+                    <td> {{this}} </td>
                 {{/each}}
+                </tr>
+                <tr>
+                    <td colspan="{{imgUrls[1].length}}"> {{brownHandPoint}} </td>
+                </tr>
             </table>
         </div>
     </div>
