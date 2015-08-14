@@ -3,15 +3,16 @@ body{
 }
 
 .game-area{
+    position: relative;
     height: 540px;
     width: 540px;
     display: inline-block;
-    left: -270px;
     margin: auto;
     text-align: center;
     background:url('../img/board.jpg') no-repeat;
     margin-left: -10px;
-    margin-right: -5px;
+    margin-right: -10px;
+    z-index: 1;
 }
 
 .game-area > table {
@@ -40,7 +41,7 @@ td{
     height: 68px;
 }
 
-button{
+#placement{
     display: block;
     position: absolute;
     margin: 10px;
@@ -55,6 +56,7 @@ button{
 }
 
 .player{
+    position: relative;
     display: inline-block;
     width: 30%;
     height: 540px;
@@ -62,6 +64,10 @@ button{
 }
 
 .player > .content-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     margin: auto;
     text-align: center;
 }
@@ -72,30 +78,34 @@ button{
 
 #brown{
     background-color: #5D4037;
-    left: -540px;
-    z-index: -1;
 }
-#player-table-2{
-    float: right;
-}
+
 .onTurn{
     opacity: 1;
 }
 
-#playerName{
-    margin: 5px auto;
-    float: left;
-    text-align: center;
-}
 .scoreBoard {
-    border: 1px solid;
+    border-collapse: collapse;
 }
+
 .scoreBoard td{
     width: 40px;
     height: 40px;
     border: 1px solid;
 }
+
 .scoreBoard img{
     width: 40px;
-    height: 40px
+    height: 40px;
+}
+
+input, button{
+    display: inline-block;
+}
+
+.playerActive{
+    color: aqua;
+    border-bottom-width: 2px;
+    border-bottom-color: aliceblue;
+    border-bottom-style: double;
 }

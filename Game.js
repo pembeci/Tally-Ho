@@ -7,54 +7,21 @@ board = [
         [ [], [], [], [], [], [], [] ],
         [ [], [], [], [], [], [], [] ]
     ];
-var a = new Player("ersan");
-var b = new Player("meltem");
- 
-var t = new TallyHo();
-t.setBlue(a);
-t.setBrown(b);
-t.createBlues();
-t.createGreens();
-t.createBrowns();
 
-var imgUrls = t.tiles.reduce(function(accumulated, nextTile) {
-     if (nextTile.owner == t.blue){
-        if(accumulated[0].indexOf(nextTile.imageUrl) == -1){
-            accumulated[0].push(nextTile.imageUrl);
-            accumulated[1].push(nextTile.imageUrl);
-        }
-     }
-     else if(nextTile.owner == t.brown){
-        if(nextTile.name != 'Hunter' && accumulated[1].indexOf(nextTile.imageUrl) == -1){
-            accumulated[0].push(nextTile.imageUrl);
-            accumulated[1].push(nextTile.imageUrl);
-        }
-     }
-     else{
-        if((nextTile.name == 'Pheasant' || nextTile.name == 'Duck') && accumulated[0].indexOf(nextTile.imageUrl) == -1){
-            accumulated[0].push(nextTile.imageUrl);
-            accumulated[1].push(nextTile.imageUrl);
-        }
-        if((nextTile.name == 'Oak' || nextTile.name == 'Pine') && accumulated[1].indexOf(nextTile.imageUrl) == -1){
-            accumulated[1].push(nextTile.imageUrl);
-        }
-     }  
-     return accumulated;
-  },
-  [ ["public/img/hunter_2.jpg"], ["public/img/hunter_2.jpg"] ]  // initial value for accumulated
-);
+var t = new TallyHo();
 
 var ractive = new Ractive({
     el : "#container",
     template : "#template",
     data : {
+        gamePhaze: 'pickName', /*gameStart, gameInit*/
         board : board,
-        imgUrls : imgUrls,
-        tiles : shuffle(t.tiles),
+        imgUrls : [],
+        tiles : null,
         selectedTile : null,
         selectedTileCoor : null,
-        blue : t.blue,
-        brown : t.brown,
+        blue : '',
+        brown : '',
         moveCoor : [],
         huntCoor : [],
         players : [],
@@ -69,8 +36,8 @@ var ractive = new Ractive({
                 }, { Hunter : 0,
                      Bear : 0,
                      Fox : 0,
-                     Duck : 0,
                      Pheasant : 0,
+                     Duck : 0,
                      Lumberjack : 0
                     }))
             }
@@ -104,8 +71,28 @@ var ractive = new Ractive({
     }
 });
 
-ractive.push("players", t.blue);
-ractive.push("players", t.brown);
+ractive.on("p1ready", function(){
+    var playerBlue = new Player(ractive.get("player1name"));
+    t.setBlue(playerBlue);
+    ractive.set('blue', t.blue);
+    ractive.set("players.0", t.blue);
+    event.target.style.display = 'none';
+    if(ractive.get('players').length == 2){
+        ractive.set('gamePhaze', 'gameInit');
+    }
+});
+
+ractive.on("p2ready", function() {
+    var playerBrown = new Player(ractive.get("player2name"));
+    t.setBrown(playerBrown);
+    ractive.set('brown', t.brown);
+    ractive.set("players.1", t.brown);
+    event.target.style.display = 'none';
+    if(ractive.get('players').length == 2){
+        ractive.set('gamePhaze', 'gameInit');
+    }
+});
+
 ractive.on("showTile", function(e){
     ractive.set(e.keypath + ".visible", true);
     changeTurn();
@@ -152,14 +139,19 @@ ractive.on("selectTile", function(e, i, j){
 });
 
 ractive.on("tilePlacement", function(){
+    //Creating Tiles
+    t.createBlues();
+    t.createGreens();
+    t.createBrowns();
+    this.set('imgUrls', findImgUrls());
+    this.set('tiles', shuffle(t.tiles));
     for(var i = 0; i < this.get("board").length; i++){
         for(var j = 0; j < this.get("board").length; j++){
             if (i == 3 && j == 3) continue;
             ractive.set("board[" + i + "][ " + j + " ]", ractive.get("tiles").pop())
         }
     }
-    console.log("Placement is done.")
-    event.target.style.display = "none";
+    ractive.set('gamePhaze', 'gameStart');
 });
 
 function changeTurn(){
@@ -400,3 +392,33 @@ function shuffle(array) {
     }
     return array;
 };
+
+function findImgUrls(){ /*return a array*/ 
+    return t.tiles.reduce(function(accumulated, nextTile) {
+         if (nextTile.owner == t.blue){
+            if(accumulated[0].indexOf(nextTile.imageUrl) == -1){
+                console.log(nextTile.name);
+                accumulated[0].push(nextTile.imageUrl);
+                accumulated[1].push(nextTile.imageUrl);
+            }
+         }
+         else if(nextTile.owner == t.brown){
+            if(nextTile.name != 'Hunter' && accumulated[1].indexOf(nextTile.imageUrl) == -1){
+                accumulated[0].push(nextTile.imageUrl);
+                accumulated[1].push(nextTile.imageUrl);
+            }
+         }
+         else{
+            if((nextTile.name == 'Pheasant' || nextTile.name == 'Duck') && accumulated[0].indexOf(nextTile.imageUrl) == -1){
+                accumulated[0].push(nextTile.imageUrl);
+                accumulated[1].push(nextTile.imageUrl);
+            }
+            if((nextTile.name == 'Oak' || nextTile.name == 'Pine') && accumulated[1].indexOf(nextTile.imageUrl) == -1){
+                accumulated[1].push(nextTile.imageUrl);
+            }
+         }  
+         return accumulated;
+      },
+      [ ["public/img/hunter_2.jpg"], ["public/img/hunter_2.jpg"] ]  // initial value for accumulated
+    );
+}

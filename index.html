@@ -7,92 +7,123 @@
     <link rel="stylesheet" type="text/css" href="public/css/style.css">
 </head>
 <body>
-    <div id='container'></div>
-    
-	<script id="template" type="text/ractive">
-    <div class='player {{#if turn == 0}} onTurn {{/if}}' id='blue'>
-        <div class='content-container'>
-            <table class="scoreBoard">
-                <tr>
-                {{#each imgUrls[0]}}
-                    <th> <img src="{{this}}"> </th>
-                {{/each}}
-                </tr>
-                <tr>
-                 {{#each blueHand}}
-                    <td> {{this}} </td>
-                {{/each}}
-                </tr>
-                 <tr>
-                    <td colspan="{{imgUrls[0].length}}"> {{blueHandPoint}} </td>
-                </tr>
-            </table>
-         </div>
-    </div>       
-    <div class="game-area">
-        <table>
-            {{#each board:i}}
-                <tr>
-                {{#each board[i]:j}}
-                    <td>
-                        {{#if this}} 
-                        <div id="{{i + '.' + j}}" class="tile" 
-                            on-click='
-                                {{#if this.visible == false}}
-                                    {{#if selectedTile == null}}
-                                        showTile 
-                                    {{/if}}
-                                {{else}} 
-                                    {{#if selectedTile == null}}
-                                        selectTile
-                                    {{else}}
-                                        hunt
-                                    {{/if}}
-                                {{/if}}:{{i}},{{j}}'
-                            style="
-                                {{#if this.visible}} 
-                                    background-image:url('{{this.imageUrl}}') 
-                                {{else}} 
-                                    background-image:url('public/img/back.jpg')
-                                {{/if}}
-                            "></div>
-                        {{else}}
-                            {{#if selectedTile != null}}
-                                <div id="{{i + '.' + j}}" on-click="move:{{i}},{{j}}" class="emptyCell"></div>
-                            {{/if}}
-                        {{/if}}
-                    </td>
-                {{/each}}
-                </tr>
+<div id='container'></div>
+
+<script id="template" type="text/ractive">
+<div class="player {{#if (gamePhaze!='gameStart' || turn == 0)}} onTurn {{/if}}" id='blue'>
+    <div class='content-container'>
+        {{#if gamePhaze == 'pickName'}}
+            <tr>
+                <input type='text' value={{player1name}} required placeholder='Player Name'>
+                <button type="submit" on-click="p1ready"> Ready </button>
+            </tr>
+        {{/if}}
+        {{#if gamePhaze != 'pickName'}}
+            {{#if turn==0}}
+                <h2 class='playerActive'>{{players.0.name}}</h2>
+            {{else}}
+                <h4>{{players.0.name}}</h4>
+            {{/if}}
+        {{/if}}
+        {{#if gamePhaze == 'gameStart'}}
+        <table class="scoreBoard">
+            <tr>
+            {{#each imgUrls[0]}}
+                <th> <img src="{{this}}"> </th>
             {{/each}}
+            </tr>
+            <tr>
+             {{#each blueHand}}
+                <td> {{this}} </td>
+            {{/each}}
+            </tr>
+             <tr>
+                <td colspan="{{imgUrls[0].length}}"> {{blueHandPoint}} </td>
+            </tr>
         </table>
-    </div>
-    <div class='player {{#if turn == 1}} onTurn {{/if}}' id='brown'>
-        <div class='content-container'>
-            <table class="scoreBoard">
-                <tr>
-                {{#each imgUrls[1]}}
-                    <th> <img src="{{this}}"> </th>
-                {{/each}}
-                </tr>
-                <tr>
-                 {{#each brownHand}}
-                    <td> {{this}} </td>
-                {{/each}}
-                </tr>
-                <tr>
-                    <td colspan="{{imgUrls[1].length}}"> {{brownHandPoint}} </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    
-    <button type="button" on-click="tilePlacement"> Tile Placement </button>
-	</script>
-    <script src="Tile.js"></script>
-	<script src="TallyHo.js"></script>
-	<script src="public/js/ractive.js"></script>
-	<script src="Player.js"></script>
-    <script src="Game.js"></script>
+        {{/if}}
+     </div>
+</div>       
+<div class="game-area">
+    <table>
+        {{#each board:i}}
+            <tr>
+            {{#each board[i]:j}}
+                <td>
+                    {{#if this}} 
+                    <div id="{{i + '.' + j}}" class="tile" 
+                        on-click='
+                            {{#if this.visible == false}}
+                                {{#if selectedTile == null}}
+                                    showTile 
+                                {{/if}}
+                            {{else}} 
+                                {{#if selectedTile == null}}
+                                    selectTile
+                                {{else}}
+                                    hunt
+                                {{/if}}
+                            {{/if}}:{{i}},{{j}}'
+                        style="
+                            {{#if this.visible}} 
+                                background-image:url('{{this.imageUrl}}') 
+                            {{else}} 
+                                background-image:url('public/img/back.jpg')
+                            {{/if}}
+                        "></div>
+                    {{else}}
+                        {{#if selectedTile != null}}
+                            <div id="{{i + '.' + j}}" on-click="move:{{i}},{{j}}" class="emptyCell"></div>
+                        {{/if}}
+                    {{/if}}
+                </td>
+            {{/each}}
+            </tr>
+        {{/each}}
+    </table>
+</div>
+<div class='player {{#if (gamePhaze!='gameStart' || turn == 1)}} onTurn {{/if}}' id='brown'>
+    <div class='content-container'>
+        {{#if gamePhaze == 'pickName'}}
+            <tr>
+                <input value={{player2name}} type="text" required='required' placeholder='Player Name'>
+                <button on-click="p2ready"> Ready </button>
+            </tr>
+        {{/if}}
+        {{#if gamePhaze != 'pickName'}}
+            {{#if turn==1}}
+                <h2 class='playerActive'>{{players.1.name}}</h2>
+            {{else}}
+                <h4>{{players.1.name}}</h4>
+            {{/if}}
+        {{/if}}
+        {{#if gamePhaze == 'gameStart'}}
+        <table class="scoreBoard">
+            <tr>
+            {{#each imgUrls[1]}}
+                <th> <img src="{{this}}"> </th>
+            {{/each}}
+            </tr>
+            <tr>
+             {{#each brownHand}}
+                <td> {{this}} </td>
+            {{/each}}
+            </tr>
+             <tr>
+                <td colspan="{{imgUrls[1].length}}"> {{blueHandPoint}} </td>
+            </tr>
+        </table>
+        {{/if}}
+     </div>
+</div>
+{{#if gamePhaze == 'gameInit'}}
+<button id='placement' type="button" on-click="tilePlacement"> Tile Placement </button>
+{{/if}}
+</script>
+<script src="Tile.js"></script>
+<script src="TallyHo.js"></script>
+<script src="public/js/ractive.js"></script>
+<script src="Player.js"></script>
+<script src="Game.js"></script>
 </body>
 </html>
