@@ -67,12 +67,28 @@ var ractive = new Ractive({
           return (this.get("players.1.hand").reduce(function(total, tile){
               return total + tile.points;
           }, 0))  
+        },
+        isAllVisible : function(){
+            if (this.get("gamePhase") == "gameStart"){
+                var result = true;
+                for (var i = 0; i < this.get("board").length; i++){
+                    for (var j = 0; j < this.get("board").length; j++){
+                        if (this.get("board." + i + "." + j) != null && this.get("board." + i + "." + j + ".visible") == false){
+                            result = false;
+                            break;
+                        }
+                    }
+                    if (!result) break;
+                }
+                return result;
+            }else return false;
         }
     }
 });
 
 ractive.on("p1ready", function(){
     var playerBlue = new Player(ractive.get("player1name"));
+    playerBlue.remainingMoves = 5;
     t.setBlue(playerBlue);
     ractive.set('blue', t.blue);
     ractive.set("players.0", t.blue);
@@ -84,6 +100,7 @@ ractive.on("p1ready", function(){
 
 ractive.on("p2ready", function() {
     var playerBrown = new Player(ractive.get("player2name"));
+    playerBrown.remainingMoves = 5;
     t.setBrown(playerBrown);
     ractive.set('brown', t.brown);
     ractive.set("players.1", t.brown);
@@ -95,18 +112,21 @@ ractive.on("p2ready", function() {
 
 ractive.on("showTile", function(e){
     ractive.set(e.keypath + ".visible", true);
+    calculateTotalMoves();
     changeTurn();
 });
 
 ractive.on("move", function(e, i, j){
     if (canMove(i, j)){
+        if (this.get("isAllVisible")) calculateRemaningMoves()
         this.set(e.keypath, this.get("selectedTile"));
         this.set(this.get("selectedTileCoor"), null);
         this.set("selectedTile", null);
+        calculateTotalMoves();
         changeTurn();
     }
-    
 });
+
 ractive.on("hunt", function(e, i, j){
     if (this.get(e.keypath) == this.get("selectedTile")){
         this.set("selectedTileCoor", null);
@@ -115,14 +135,15 @@ ractive.on("hunt", function(e, i, j){
         return;
     }
     if (canHunt(i, j)){
+        if (this.get("isAllVisible")) calculateRemaningMoves()
         var hand = this.push("players." + this.get("turn") + ".hand", this.get(e.keypath));
         //hand.push(this.get(e.keypath));
         this.set(e.keypath, ractive.get("selectedTile"));
         this.set(this.get("selectedTileCoor"), null);
         this.set("selectedTile", null);
+        calculateTotalMoves();
         changeTurn();
     }
-    
 });
 
 ractive.on("selectTile", function(e, i, j){
@@ -154,6 +175,15 @@ ractive.on("tilePlacement", function(){
     ractive.set('gamePhase', 'gameStart');
 });
 
+function calculateTotalMoves(){
+    var moves = ractive.get("players." + ractive.get("turn") + ".moves");
+    ractive.set("players." + ractive.get("turn") + ".moves", ++moves);
+}
+function calculateRemaningMoves(){
+    var remaningMoves = ractive.get("players." + ractive.get("turn") + ".remainingMoves");
+    ractive.set("players." + ractive.get("turn") + ".remainingMoves", --remaningMoves);
+    return remaningMoves;
+}
 function changeTurn(){
     ractive.set("turn", ractive.get("turn") == 1 ? 0 : 1)
 }
@@ -397,7 +427,6 @@ function findImgUrls(){ /*return a array*/
     return t.tiles.reduce(function(accumulated, nextTile) {
          if (nextTile.owner == t.blue){
             if(accumulated[0].indexOf(nextTile.imageUrl) == -1){
-                console.log(nextTile.name);
                 accumulated[0].push(nextTile.imageUrl);
                 accumulated[1].push(nextTile.imageUrl);
             }

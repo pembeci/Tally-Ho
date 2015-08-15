@@ -37,9 +37,23 @@
                 <td> {{this}} </td>
             {{/each}}
             </tr>
-             <tr>
+            <tr>
                 <td colspan="{{imgUrls[0].length}}"> {{blueHandPoint}} </td>
             </tr>
+            <tr>
+            <td colspan="{{imgUrls[0].length}}"> Total Moves </td>
+            </tr>
+            <tr>
+            <td colspan="{{imgUrls[0].length}}"> {{players[0].moves}} </td>
+            </tr>
+            {{#if isAllVisible}}
+            <tr>
+                <td colspan="{{imgUrls[0].length}}"> Remaining Moves </td>
+            </tr>
+            <tr>
+                <td colspan="{{imgUrls[0].length}}"> <b> {{players.0.remainingMoves}} </b> </td>
+            </tr>
+            {{/if}}
         </table>
         {{/if}}
      </div>
@@ -59,9 +73,11 @@
                                 {{/if}}
                             {{else}} 
                                 {{#if selectedTile == null}}
-                                    selectTile
+                                    {{#if players[turn].remainingMoves != 0}} 
+                                        selectTile 
+                                    {{/if}}
                                 {{else}}
-                                    hunt
+                                    {{#if players[turn].remainingMoves != 0}} hunt {{/if}}
                                 {{/if}}
                             {{/if}}:{{i}},{{j}}'
                         style="
@@ -109,15 +125,29 @@
                 <td> {{this}} </td>
             {{/each}}
             </tr>
-             <tr>
+            <tr>
                 <td colspan="{{imgUrls[1].length}}"> {{brownHandPoint}} </td>
             </tr>
+            <tr>
+            <td colspan="{{imgUrls[1].length}}"> Total Moves </td>
+            </tr>
+            <tr>
+            <td colspan="{{imgUrls[1].length}}"> {{players[1].moves}} </td>
+            </tr>
+            {{#if isAllVisible}}
+            <tr>
+                <td colspan="{{imgUrls[1].length}}"> Remaining Moves </td>
+            </tr>
+            <tr>
+                <td colspan="{{imgUrls[1].length}}"> <b> {{players.1.remainingMoves}} </b></td>
+            </tr>
+            {{/if}}
         </table>
         {{/if}}
      </div>
 </div>
 {{#if gamePhase == 'gameInit'}}
-<button id='placement' type="button" on-click="tilePlacement"> Tile Placement </button>
+<button id='placement' type="button" on-click="tilePlacement" style="margin-left:47%; width:100px; height:75px"> Tile Placement </button>
 {{/if}}
 </script>
 <script src="Tile.js"></script>
