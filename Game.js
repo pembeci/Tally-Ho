@@ -136,7 +136,7 @@ ractive.on("hunt", function(e, i, j){
     }
     if (canHunt(i, j)){
         if (this.get("isAllVisible")) calculateRemaningMoves()
-        var hand = this.push("players." + this.get("turn") + ".hand", this.get(e.keypath));
+        this.push("players." + this.get("turn") + ".hand", this.get(e.keypath));
         //hand.push(this.get(e.keypath));
         this.set(e.keypath, ractive.get("selectedTile"));
         this.set(this.get("selectedTileCoor"), null);
@@ -155,6 +155,27 @@ ractive.on("selectTile", function(e, i, j){
             this.set('moveCoor', possibleMoves(i, j));
             this.set("huntCoor", possibleHunts(i, j));
             event.target.className += " selected";
+            if (this.get("isAllVisible")){
+                switch(e.keypath){
+                    case "board.0.3":
+                        pickOwnTiles(e);
+                        changeTurn();
+                        break;
+                    case "board.3.0":
+                        pickOwnTiles(e);
+                        changeTurn();
+                        break;
+                    case "board.3.6":
+                        pickOwnTiles(e);
+                        changeTurn();
+                        break;
+                    case "board.6.3":
+                        pickOwnTiles(e);
+                        changeTurn();
+                        break;
+                }
+                
+            }
         }
     }
 });
@@ -175,15 +196,25 @@ ractive.on("tilePlacement", function(){
     ractive.set('gamePhase', 'gameStart');
 });
 
+function pickOwnTiles(e){
+    if (ractive.get(e.keypath).owner.name == ractive.get("players." + ractive.get("turn")).name){
+        ractive.push("players." + ractive.get("turn") + ".hand", ractive.get(e.keypath));
+        ractive.set(ractive.get("selectedTileCoor"), null);
+        ractive.set("selectedTile", null);
+    }
+}
+
 function calculateTotalMoves(){
     var moves = ractive.get("players." + ractive.get("turn") + ".moves");
     ractive.set("players." + ractive.get("turn") + ".moves", ++moves);
 }
+
 function calculateRemaningMoves(){
     var remaningMoves = ractive.get("players." + ractive.get("turn") + ".remainingMoves");
     ractive.set("players." + ractive.get("turn") + ".remainingMoves", --remaningMoves);
     return remaningMoves;
 }
+
 function changeTurn(){
     ractive.set("turn", ractive.get("turn") == 1 ? 0 : 1)
 }
