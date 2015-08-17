@@ -109,3 +109,6 @@ input, button{
     border-bottom-color: aliceblue;
     border-bottom-style: double;
 }
+.finishGame{
+    opacity: 1;
+}

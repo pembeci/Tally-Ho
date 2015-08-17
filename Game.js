@@ -20,8 +20,6 @@ var ractive = new Ractive({
         tiles : null,
         selectedTile : null,
         selectedTileCoor : null,
-        blue : '',
-        brown : '',
         moveCoor : [],
         huntCoor : [],
         players : [],
@@ -82,6 +80,13 @@ var ractive = new Ractive({
                 }
                 return result;
             }else return false;
+        },
+        isGameFinish : function(){
+            return (this.get("players").reduce(function(result, player){
+                        if (player.remainingMoves == 0) result = true;
+                        else result = false;
+                        return result;
+                    }, true))
         }
     }
 });
@@ -90,7 +95,6 @@ ractive.on("p1ready", function(){
     var playerBlue = new Player(ractive.get("player1name"));
     playerBlue.remainingMoves = 5;
     t.setBlue(playerBlue);
-    ractive.set('blue', t.blue);
     ractive.set("players.0", t.blue);
     event.target.style.display = 'none';
     if(ractive.get('players').length == 2){
@@ -102,7 +106,6 @@ ractive.on("p2ready", function() {
     var playerBrown = new Player(ractive.get("player2name"));
     playerBrown.remainingMoves = 5;
     t.setBrown(playerBrown);
-    ractive.set('brown', t.brown);
     ractive.set("players.1", t.brown);
     event.target.style.display = 'none';
     if(ractive.get('players').length == 2){
@@ -156,25 +159,11 @@ ractive.on("selectTile", function(e, i, j){
             this.set("huntCoor", possibleHunts(i, j));
             event.target.className += " selected";
             if (this.get("isAllVisible")){
-                switch(e.keypath){
-                    case "board.0.3":
-                        pickOwnTiles(e);
-                        changeTurn();
-                        break;
-                    case "board.3.0":
-                        pickOwnTiles(e);
-                        changeTurn();
-                        break;
-                    case "board.3.6":
-                        pickOwnTiles(e);
-                        changeTurn();
-                        break;
-                    case "board.6.3":
-                        pickOwnTiles(e);
-                        changeTurn();
-                        break;
+                if (e.keypath == "board.0.3" || e.keypath == "board.3.0" || e.keypath == "board.3.6" || e.keypath == "board.6.3"){
+                    pickOwnTiles(e);
+                    calculateRemaningMoves();
+                    changeTurn();
                 }
-                
             }
         }
     }
@@ -190,7 +179,7 @@ ractive.on("tilePlacement", function(){
     for(var i = 0; i < this.get("board").length; i++){
         for(var j = 0; j < this.get("board").length; j++){
             if (i == 3 && j == 3) continue;
-            ractive.set("board[" + i + "][ " + j + " ]", ractive.get("tiles").pop())
+            ractive.set("board[" + i + "][ " + j + " ]", ractive.get("tiles").pop());
         }
     }
     ractive.set('gamePhase', 'gameStart');
@@ -216,20 +205,21 @@ function calculateRemaningMoves(){
 }
 
 function changeTurn(){
-    ractive.set("turn", ractive.get("turn") == 1 ? 0 : 1)
+    ractive.set("turn", ractive.get("turn") == 1 ? 0 : 1);
 }
 
 function canHunt(x, y){
     return (ractive.get("huntCoor").reduce(function(result, coor){
         if (coor.x == x && coor.y == y) result = true; 
         return result;
-    }, false))
+    }, false));
 }
+
 function canMove(x, y){
     return (ractive.get("moveCoor").reduce(function(result, coor){
         if (coor.x == x && coor.y == y) result = true; 
         return result;
-    }, false))
+    }, false));
 }
 
 function possibleHunts(x, y){
@@ -330,9 +320,9 @@ function possibleHunts(x, y){
                         if (ractive.get('board.' + x + '.' + forward + ".visible")){
                             if (selectedTile.prey.indexOf(ractive.get("board." + x + "." + forward).name) != -1){
                                 posHunts.push({ x : x, y : forward });                    
-                                forward = ractive.get("board").length
-                            }else forward = ractive.get("board").length
-                        }else forward = ractive.get("board").length
+                                forward = ractive.get("board").length;
+                            }else forward = ractive.get("board").length;
+                        }else forward = ractive.get("board").length;
                     }
                 }
             }
@@ -373,7 +363,6 @@ function possibleHunts(x, y){
     }else if (selectedTile.moveLimit == 1){
         for (var i = x - selectedTile.moveLimit; i <= x + selectedTile.moveLimit; i++){
            for(var j = y - selectedTile.moveLimit; j <= y + selectedTile.moveLimit; j++){
-              
                if (i == x || j == y){
                    if (ractive.get('board.' + i + '.' + j + ".visible") && ractive.get('board.' + i + '.' + j) != null){
                        if (selectedTile.prey.indexOf(ractive.get('board.' + i + '.' + j).name) != -1){
@@ -388,7 +377,7 @@ function possibleHunts(x, y){
 }
 
 function possibleMoves(x, y){
-    var posMoves = []
+    var posMoves = [];
     var limit = ractive.get("selectedTile").moveLimit;
     if(limit == 7){
         var forward = y + 1;
@@ -404,14 +393,14 @@ function possibleMoves(x, y){
                 if (ractive.get("board." + x + "." + forward) == null){
                     posMoves.push({ x : x, y : forward });
                     forward++;
-                }else forward = ractive.get("board").length
+                }else forward = ractive.get("board").length;
             }
         }
         back = x - 1 ;
         forward = x + 1;
         var verticalArray = [];
         for (var i = 0; i < ractive.get("board").length; i++){
-            verticalArray.push(ractive.get("board." + i + "." + y))
+            verticalArray.push(ractive.get("board." + i + "." + y));
         }
         while(forward != verticalArray.length || back >= 0){
             if (back != -1){
@@ -424,7 +413,7 @@ function possibleMoves(x, y){
                 if (ractive.get("board." + forward + "." + y) == null){
                     posMoves.push({ x : forward, y : y });
                     forward++;
-                }else forward = verticalArray.length
+                }else forward = verticalArray.length;
             }
         }
     }

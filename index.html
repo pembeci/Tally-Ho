@@ -10,7 +10,13 @@
 <div id='container'></div>
 
 <script id="template" type="text/ractive">
-<div class="player {{#if (gamePhase!='gameStart' || turn == 0)}} onTurn {{/if}}" id='blue'>
+<div class="player {{#if isGameFinish}}
+                finishGame
+            {{else}}
+                {{#if (gamePhase!='gameStart' || turn == 0)}} 
+                    onTurn 
+                {{/if}}
+            {{/if}}" id='blue'>
     <div class='content-container'>
         {{#if gamePhase == 'pickName'}}
             <tr>
@@ -19,7 +25,9 @@
             </tr>
         {{/if}}
         {{#if gamePhase != 'pickName'}}
-            {{#if turn==0}}
+            {{#if isGameFinish}}
+                <h2 class='playerActive'>{{players.0.name}}</h2>
+            {{elseif turn==0}}
                 <h2 class='playerActive'>{{players.0.name}}</h2>
             {{else}}
                 <h4>{{players.0.name}}</h4>
@@ -57,7 +65,7 @@
         </table>
         {{/if}}
      </div>
-</div>       
+</div>
 <div class="game-area">
     <table>
         {{#each board:i}}
@@ -98,7 +106,14 @@
         {{/each}}
     </table>
 </div>
-<div class='player {{#if (gamePhase!='gameStart' || turn == 1)}} onTurn {{/if}}' id='brown'>
+<div class='player
+            {{#if isGameFinish}}
+                finishGame
+            {{else}}
+                {{#if (gamePhase!='gameStart' || turn == 1)}} 
+                    onTurn 
+                {{/if}}
+            {{/if}}' id='brown'>
     <div class='content-container'>
         {{#if gamePhase == 'pickName'}}
             <tr>
@@ -107,7 +122,9 @@
             </tr>
         {{/if}}
         {{#if gamePhase != 'pickName'}}
-            {{#if turn==1}}
+            {{#if isGameFinish}}
+                <h2 class='playerActive'>{{players.1.name}}</h2>
+            {{elseif turn==1}}
                 <h2 class='playerActive'>{{players.1.name}}</h2>
             {{else}}
                 <h4>{{players.1.name}}</h4>
@@ -147,7 +164,7 @@
      </div>
 </div>
 {{#if gamePhase == 'gameInit'}}
-<button id='placement' type="button" on-click="tilePlacement" style="margin-left:47%; width:100px; height:75px"> Tile Placement </button>
+<button id='placement' type="button" on-click="tilePlacement" style="margin-left:47%; width:100px; height:75px"> START </button>
 {{/if}}
 </script>
 <script src="Tile.js"></script>
