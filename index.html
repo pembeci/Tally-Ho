@@ -67,44 +67,52 @@
      </div>
 </div>
 <div class="game-area">
-    <table>
-        {{#each board:i}}
-            <tr>
-            {{#each board[i]:j}}
-                <td>
-                    {{#if this}} 
-                    <div id="{{i + '.' + j}}" class="tile" 
-                        on-click='
-                            {{#if this.visible == false}}
-                                {{#if selectedTile == null}}
-                                    showTile 
-                                {{/if}}
-                            {{else}} 
-                                {{#if selectedTile == null}}
-                                    {{#if players[turn].remainingMoves != 0}} 
-                                        selectTile 
+    {{#if gamePhase == 'gameInit'}}
+        <a href='#'><img src="public/img/start.png" on-click="tilePlacement" alt="Click to Start Game" height="540" width="540"></a>
+    {{else}}
+        {{#if gamePhaze != 'gameInit' && isGameFinish}}
+            <a href=''><img src="public/img/finish.png" on-click="tilePlacement" alt="Game Finished" height="540" width="540"></a>
+        {{else}}
+            <table>
+                {{#each board:i}}
+                    <tr>
+                    {{#each board[i]:j}}
+                        <td>
+                            {{#if this}} 
+                            <div id="{{i + '.' + j}}" class="tile" 
+                                on-click='
+                                    {{#if this.visible == false}}
+                                        {{#if selectedTile == null}}
+                                            showTile 
+                                        {{/if}}
+                                    {{else}} 
+                                        {{#if selectedTile == null}}
+                                            {{#if players[turn].remainingMoves != 0}} 
+                                                selectTile 
+                                            {{/if}}
+                                        {{else}}
+                                            {{#if players[turn].remainingMoves != 0}} hunt {{/if}}
+                                        {{/if}}
+                                    {{/if}}:{{i}},{{j}}'
+                                style="
+                                    {{#if this.visible}} 
+                                        background-image:url('{{this.imageUrl}}') 
+                                    {{else}} 
+                                        background-image:url('public/img/back.jpg')
                                     {{/if}}
-                                {{else}}
-                                    {{#if players[turn].remainingMoves != 0}} hunt {{/if}}
+                                "></div>
+                            {{else}}
+                                {{#if selectedTile != null}}
+                                    <div id="{{i + '.' + j}}" on-click="move:{{i}},{{j}}" class="emptyCell"></div>
                                 {{/if}}
-                            {{/if}}:{{i}},{{j}}'
-                        style="
-                            {{#if this.visible}} 
-                                background-image:url('{{this.imageUrl}}') 
-                            {{else}} 
-                                background-image:url('public/img/back.jpg')
                             {{/if}}
-                        "></div>
-                    {{else}}
-                        {{#if selectedTile != null}}
-                            <div id="{{i + '.' + j}}" on-click="move:{{i}},{{j}}" class="emptyCell"></div>
-                        {{/if}}
-                    {{/if}}
-                </td>
-            {{/each}}
-            </tr>
-        {{/each}}
-    </table>
+                        </td>
+                    {{/each}}
+                    </tr>
+                {{/each}}
+            </table>
+            {{/if}}
+        {{/if}}
 </div>
 <div class='player
             {{#if isGameFinish}}
@@ -163,9 +171,6 @@
         {{/if}}
      </div>
 </div>
-{{#if gamePhase == 'gameInit'}}
-<button id='placement' type="button" on-click="tilePlacement" style="margin-left:47%; width:100px; height:75px"> START </button>
-{{/if}}
 </script>
 <script src="Tile.js"></script>
 <script src="TallyHo.js"></script>

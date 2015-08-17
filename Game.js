@@ -86,30 +86,61 @@ var ractive = new Ractive({
                         if (player.remainingMoves == 0) result = true;
                         else result = false;
                         return result;
-                    }, true))
+                    }, false))
         }
     }
 });
 
 ractive.on("p1ready", function(){
-    var playerBlue = new Player(ractive.get("player1name"));
+    var name = ractive.get("player1name") ? ractive.get("player1name") : 'Blue';
+    if (this.get('players.1')){
+        if(this.get('players.1').name == name){
+            name = name + "(1)";
+        }
+    }
+    var playerBlue = new Player(name);
     playerBlue.remainingMoves = 5;
     t.setBlue(playerBlue);
     ractive.set("players.0", t.blue);
     event.target.style.display = 'none';
     if(ractive.get('players').length == 2){
         ractive.set('gamePhase', 'gameInit');
+        return;
     }
 });
 
 ractive.on("p2ready", function() {
-    var playerBrown = new Player(ractive.get("player2name"));
+    if(ractive.get('players.0') == undefined) {
+        var name = ractive.get("player1name") ? ractive.get("player1name") : 'Blue';
+        if (this.get('players.1')){
+            if(this.get('players.1').name == name){
+                name = name + "(1)";
+            }
+        }
+        var playerBlue = new Player(name);
+        playerBlue.remainingMoves = 5;
+        t.setBlue(playerBlue);
+        ractive.set("players.0", t.blue);
+        event.target.style.display = 'none';
+        if(ractive.get('players').length == 2){
+            ractive.set('gamePhase', 'gameInit');
+            return;
+        }
+    };
+    var name = ractive.get("player2name") ? ractive.get("player2name") : 'Brown';
+    if (this.get('players.0')){
+        if(this.get('players.0').name == name){
+            name = name + "(1)";
+        }
+    }
+    var playerBrown = new Player(name);
     playerBrown.remainingMoves = 5;
     t.setBrown(playerBrown);
     ractive.set("players.1", t.brown);
-    event.target.style.display = 'none';
+    event.target.style.display = 'none'; 
     if(ractive.get('players').length == 2){
         ractive.set('gamePhase', 'gameInit');
+        return;
     }
 });
 

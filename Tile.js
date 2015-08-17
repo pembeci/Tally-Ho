@@ -5,6 +5,6 @@ function Tile(name, owner, points, moveLimit, prey, imageUrl){
     this.moveLimit = moveLimit;
     this.prey = prey;
     this.imageUrl = imageUrl;
-    this.visible = false;
+    this.visible = true;
     this.onBoard = true;
 }
