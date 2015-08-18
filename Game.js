@@ -82,11 +82,13 @@ var ractive = new Ractive({
             }else return false;
         },
         isGameFinish : function(){
-            return (this.get("players").reduce(function(result, player){
-                        if (player.remainingMoves == 0) result = true;
-                        else result = false;
-                        return result;
-                    }, false))
+            if (this.get("players").length == 2){
+                if (this.get("players").filter(function(player){
+                        if (player.remainingMoves == 0) return player;
+                    }).length == 2)
+                    return true;
+                else return false;
+            }
         }
     }
 });
