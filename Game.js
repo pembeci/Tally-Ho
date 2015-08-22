@@ -192,10 +192,12 @@ ractive.on("selectTile", function(e, i, j){
             this.set("huntCoor", possibleHunts(i, j));
             event.target.className += " selected";
             if (this.get("isAllVisible")){
-                if (e.keypath == "board.0.3" || e.keypath == "board.3.0" || e.keypath == "board.3.6" || e.keypath == "board.6.3"){
-                    pickOwnTiles(e);
-                    calculateRemaningMoves();
-                    changeTurn();
+                if (this.get(e.keypath).name != "Pheasant" && this.get(e.keypath).name != "Duck"){
+                   if (e.keypath == "board.0.3" || e.keypath == "board.3.0" || e.keypath == "board.3.6" || e.keypath == "board.6.3"){
+                        pickOwnTiles(e);
+                        calculateRemaningMoves();
+                        changeTurn(); 
+                    }
                 }
             }
         }
